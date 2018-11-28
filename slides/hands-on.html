@@ -1,0 +1,57 @@
+<section>
+    <img src="resources/img/packagist.png" alt="">
+</section>
+<section>
+    <h1>Hands on</h1>
+    <pre><code class="hljs bash">composer install pitchart/transformer</code></pre>
+</section>
+<section>
+    <pre><code class="hljs php" contenteditable="true">foreach ($users as $user) {
+    if ($user->getAddresses() !== null) {
+        foreach ($user->getAddresses() as $address) {
+            if ($address->isActive()) {
+                $cities[] = new City($address->getZip(), $address->getCity());
+            }
+        }
+    }
+}</code></pre>
+</section>
+<section>
+    <pre><code class="hljs php" contenteditable="true">
+$cities = from($users)
+    ->filter(function (User $user) {
+        return count($user->getAddresses()) > 0;
+    })->mapCat(function (User $user) {
+        return $user->getAddresses();
+    })->filter(function (Address $address) {
+        return $address->isActive();
+    })->map(function (Address $address) {
+        return new City($address->getZip(), $address->getCity());
+    })->toArray(); // here is the loop ;)
+    </code></pre>
+</section>
+<section>
+    <pre><code class="hljs php" contenteditable="true">
+$products = from($carts)
+    ->mapCat(function (Cart $cart) {
+        return $cart->getProducts();
+    })->filter(function (Product $product) {
+        return $product->getPrice() > 0;
+    })
+;
+    </code></pre>
+    <pre><code class="hljs php" contenteditable="true">
+$sold = $products
+    ->map(function (Product $product) {
+        return $product->getPrice();
+    })->sum()
+;
+    </code></pre>
+    <pre><code class="hljs php" contenteditable="true">
+$number = $products
+    ->map(function (Product $product) {
+        return $product->getQuantity();
+    })->sum()
+;
+    </code></pre>
+</section>

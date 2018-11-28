@@ -1,0 +1,93 @@
+<section>
+    <h1>Les besoins</h1>
+</section>
+<section>
+    <h2>Jeux de données</h2>
+    <p>L'exécution des tests se fait sur des données constantes</p>
+    <ul>
+        <li>Besoin de données de test en début de développement d'une fonctionnalité</li>
+        <li>Recharger une base avant exécution des tests</li>
+        <li>Les données sont versionnées avec le code source</li>
+        <li>Enrichir et adapter au fur et à mesure des évolutions / corrections de bugs</li>
+        <li class="pros">Insérer les données en base est un premier test : pas de requête SQL, utiliser le code</li>
+    </ul>
+</section>
+<section>
+    <h2>Spécifications</h2>
+</section>
+<section>
+    <h3>Expliciter les règles métier</h3>
+    <p>Pour une prestation inférieure ou égale à 7h, réalisable par un technicien seul et un devis validé, un prospect choisit une date de rendez-vous en fonction des disponibilités proposées.</p>
+</section>
+<section>
+    <p>Un devis mène à un rendez-vous, sauf si :</p>
+    <ul>
+        <li>le devis n'est pas validé</li>
+        <li>la prestation associée est supérieure ou égale à 7h</li>
+        <li>la prestation nécessite l'intervention de plus d'un technicien</li>
+    </ul>
+</section>
+<section>
+    <h3>Tests unitaires associés</h3>
+    <pre><code>Opali\Unit\Quotation\Entity\Quotation
+ ...
+ [x] can convert into appointment
+ [x] can not convert into appointment if not validated
+ [x] can not convert into appointment for too many technicians required
+ [x] can not convert into appointment for too long duration
+ ...</code></pre>
+</section>
+<section>
+    <p>
+        A la soumission d'un devis, si celui-ci est simple,
+        le prospect pourra choisir son forfait s'il a sélectionné des éléments vitrés, ainsi que modifier ou valider son devis.
+    </p>
+</section>
+<section>
+    <h3>Test fonctionnel associés</h3>
+    <ul>
+        <li><strong>Given :</strong> un prospect ayant rempli le formulaire de demande de devis</li>
+        <li><strong>When : </strong> le prospect soumet son devis</li>
+        <li><strong>And : </strong> le devis est simple</li>
+        <li><strong>And :</strong> le devis contient des éléments vitrés</li>
+        <li><strong>Then :</strong> le prospect peut choisir son forfait</li>
+        <li><strong>And :</strong> le prospect peut modifier son devis</li>
+        <li><strong>And :</strong> le prospect peut valider son devis</li>
+    </ul>
+</section>
+<section>
+    <h2>Les outils du développeur <span class="fragment">(PHP)</span></h2>
+    <ul>
+        <li><strong class="focus">PHPUnit</strong></li>
+        <li>atoum</li>
+        <li><strong class="focus">WebTestCase (Symfony Framework)</strong></li>
+        <li><strong class="focus">liip/functional-test-bundle</strong></li>
+        <li>prophecy</li>
+        <li>phpspec</li>
+        <li>Behat</li>
+        <li><strong class="focus">CasperJS</strong></li>
+        <li>...</li>
+    </ul>
+</section>
+<section>
+    <h2>Intégration continue</h2>
+    <p>Exécution des tests</p>
+    <ul>
+        <li>manuelle lors du développement (TU, TF, TA)</li>
+        <li>automatique lors des ajouts dans le gestionnaire de sources</li>
+        <li>automatique lors des déploiements (intégration, validation, ...)</li>
+        <li>manuelle à n'importe quel moment (QA, tests avant livraison ...)</li>
+    </ul>
+    <p class="fragment solution">Jenkins to the rescue</p>
+</section>
+<section>
+    <h2>Exemple de process</h2>
+    <ul>
+        <li class="fragment">Récupération des sources + conteneurs</li>
+        <li class="fragment">Remise à zéro des données de l'application</li>
+        <li class="fragment">Exécution des tests unitaires</li>
+        <li class="fragment">Exécution des tests fonctionnels</li>
+        <li class="fragment">Exécution des tests d'acceptation</li>
+        <li class="fragment">Récupération des résultats (métriques)</li>
+    </ul>
+</section>

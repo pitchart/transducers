@@ -1,0 +1,64 @@
+<section>
+    <h1>Analyse</h1>
+</section>
+<section>
+    <h2>Versionning du code source</h2>
+    <ul class="fragment">
+        <li>Un serveur de gestion de code source <span class="success">✔</span></li>
+        <li class="fragment">Fréquence de commit / de merge <strong class="warning">?</strong></li>
+        <li class="fragment">Bonne configuration des dépôts <span class="error">✘</span></li>
+    </ul>
+    <aside class="notes">
+        <ul>
+            <li>Commiter souvent / dimension réduite => revoir la construction / découpage du code</li>
+            <li>Commiter composer.lock => réduction des faux positifs, tester le code exacte en local</li>
+        </ul>
+    </aside>
+</section>
+<section>
+    <h2>Automatisation du processus</h2>
+    <ul class="fragment">
+        <li>Scripts de tests exécutés sous Gitlab CI <span class="success">✔</span></li>
+        <li class="fragment">Scripts de déploiement exécutés via capistrano <span class="success">✔</span></li>
+        <li class="fragment">Comment tester ces scripts <strong class="warning">?</strong></li>
+        <li class="fragment">Environnement d'exécution uniforme <span class="error">✘</span></li>
+    </ul>
+    <aside class="notes">
+        <ul>
+            <li>Automatisation développement / intégrations => make</li>
+            <li>Données de tests persistées sous SQLite => problèmes sur certains shémas, clés ...</li>
+            <li>Environnement d'exécution uniformisé (docker - laradock)</li>
+        </ul>
+    </aside>
+</section>
+<section>
+    <h2>Tests automatisés</h2>
+    <ul class="fragment">
+        <li>Présence de tests unitaires <span class="success">✔</span></li>
+        <li class="fragment">Présence de tests fonctionnels <span class="success">✔</span></li>
+        <li class="fragment">Cohérence / consistence des tests <strong class="warning">?</strong></li>
+        <li class="fragment">Bonne répartition des tests <span class="error">✘ <span class="fragment">(ice cream everywhere!!!)</span></span></li>
+    </ul>
+    <aside class="notes">
+        <ul>
+            <li>Doctrine Fixtures : données réinitialisées en début d'intégration, 1ère phase de test sur la persistence du domaine métier</li>
+            <li>Révision de la stratégie de tests sur les projets : specs -> développement (think pyramid !)</li>
+        </ul>
+    </aside>
+</section>
+<section>
+    <h2>Exécution quotidienne</h2>
+    <ul class="fragment">
+        <li>Pipelines lancés à chaque push / merge <span class="success">✔</span></li>
+        <li class="fragment">Front / Back <strong class="warning">?</strong></li>
+        <li class="fragment">Relancer une exécution manuellement<strong class="warning">?</strong></li>
+        <li class="fragment">Build === source <strong class="warning">?</strong></li>
+    </ul>
+    <aside class="notes">
+        <ul>
+            <li>Possibilité de builds + évolués (multi-dépôts, en fonction de branches, tags ...)</li>
+            <li>Création d'une archive ?</li>
+            <li>=> Jenkins</li>
+        </ul>
+    </aside>
+</section>

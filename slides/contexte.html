@@ -1,0 +1,100 @@
+<section>
+    <h2>Imperative programming</h2>
+    <pre><code class="hljs php" contenteditable="true">$cities = [];
+foreach ($users as $user) {
+    if ($user->getAddresses() !== null) {
+        foreach ($user->getAddresses() as $address) {
+            if ($address->isActive()) {
+                $cities[] = new City($address->getZip(), $address->getCity());
+            }
+        }
+    }
+} // WARNING: cyclomatic complexity</code></pre>
+    <div class="fragment">
+        <h2>VS Declarative programming</h2>
+        <pre><code class="hljs sql" contenteditable="true">SELECT zip, city
+FROM address
+INNER JOIN user
+    ON address.user = user.id
+WHERE address.is_active = 1
+</code></pre>
+    </div>
+</section>
+<section>
+    <h2>Collection libraries ?</h2>
+    <ul>
+        <li>doctrine/collections</li>
+        <li>illuminate/support</li>
+        <li>phpcollection/phpcollection</li>
+        <li>...</li>
+    </ul>
+</section>
+<section>
+    <h2>Collection Pipeline</h2>
+    <div class="table">
+        <div class="table__row">
+            <div class="table__cell vat pbm  prs fragment">
+                <strong>map</strong> <br>
+                [😁 😂 😃] => [😸 😹 😺]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>filter</strong> <br>
+                [😁 😂 😹 😃 😸] => [😹 😸]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>remove</strong> <br>
+                [😁 😂 😹 😃 😸] => [😁 😂 😃]
+            </div>
+        </div>
+        <div class="table__row">
+            <div class="table__cell vat pbm fragment">
+                <strong>take</strong> <br>
+                [😁 😂 😹 😃 😸] => [😁 😂 😹]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>drop</strong> <br>
+                [😁 😂 😹 😃 😸] => [😹 😃 😸]
+            </div>
+            <div class="table__cell vat pbm fragment">
+                <strong>partition</strong> <br>
+                [😁 😹 😃 😸] => [[😁 😹] [😃 😸]]
+            </div>
+        </div>
+        <div class="table__row">
+            <div class="table__cell vat pbm prs fragment">
+                <strong>merge</strong> <br>
+                [😁 😹] [😃 😸] => [😁 😹 😃 😸]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>flatten</strong> <br>
+                [[😁 😹] [😃 😸]] => [😁 😹 😃 😸]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>flatMap / mapCat</strong> <br>
+                [😃 😣] => [😸 😺 😿 🙀]
+            </div>
+
+        </div>
+        <div class="table__row">
+            <div class="table__cell vat pbm prs fragment">
+                <strong>distinct</strong> <br>
+                [😌 😍 😏 😌 😍] => [😌 😍 😏]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>dedupe</strong> <br>
+                [😌 😍 😍 😏 😌] => [😌 😍 😏 😌]
+            </div>
+            <div class="table__cell vat pbm fragment">
+                <strong>sort</strong> <br>
+                [😁 😂 😔 😞 😪] => [😪 😞 😔 😁 😂]
+            </div>
+        </div>
+    </div>
+</section>
+<!--
+😁 😂 😃 😄 😅 😆 😉 😊 😋 😌 😍 😏 😒 😓 😔 😖 😘 😚 😜 😝
+
+😞 😠 😡 😢 😣 😤 😥 😨 😩 😪 😫 😭 😰 😱 😲 😳 😵 😷
+
+😸 😹 😺 😻 😼 😽 😾 😿 🙀
+-->

@@ -1,0 +1,45 @@
+<section>
+    <h1><a href="https://clojure.org/reference/transducers">Transducers</a> <small>by clojure</small></h1>
+    <blockquote>
+        Composable algorithmic transformations; compose directly, without awareness of input or creation of intermediate aggregates.
+    </blockquote>
+    <ul class="fragment">
+        <li>Easy to read => <strong>declarative programming</strong></li>
+        <li class="fragment">Reduces loops => <strong>Composition / Pipeline</strong></li>
+        <li class="fragment">Code reuse => <strong>Invokable objects / functions</strong></li>
+        <li class="fragment">"iterable agnostic" => <strong>from(iterable $collection)</strong></li>
+        <li class="fragment">Immutable => <strong>return new static(...)</strong></li>
+    </ul>
+</section>
+<section>
+    <h2>Iterable</h2>
+    <p>Pseudo-type, since PHP 7.1</p>
+    <ul>
+        <li><strong>array</strong> ( or <strong>[ ]</strong> )</li>
+        <li>class AnyTraversable implements <strong>\Traversable</strong> {}</li>
+    </ul>
+</section>
+<section>
+    <h2>Higher order functions</h2>
+    <pre><code class="hljs php" contenteditable="true">function higher_order_function($list, $of, $arguments) {
+    return function ($item) use ($list, $of, $arguments) {
+        ...
+    };
+}</code></pre>
+    <div class="fragment">
+        <h3>Callable objects !!!</h3>
+        <pre><code class="hljs php" contenteditable="true">class Invokable
+{
+    public function __construct($list, $of, $arguments)
+    {
+        // dependency injection
+    }
+
+    public function __invoke($item)
+    {
+        // execution
+    }
+}</code></pre>
+    </div>
+</section>
+
