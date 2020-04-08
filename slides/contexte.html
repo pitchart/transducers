@@ -1,100 +1,51 @@
 <section>
-    <h2>Imperative programming</h2>
-    <pre><code class="hljs php" contenteditable="true">$cities = [];
-foreach ($users as $user) {
-    if ($user->getAddresses() !== null) {
-        foreach ($user->getAddresses() as $address) {
-            if ($address->isActive()) {
-                $cities[] = new City($address->getZip(), $address->getCity());
-            }
+<h2>Imperative programming</h2>
+<pre><code class="hljs php" contenteditable="true">$collection = [1, [2], [3, 4]];
+
+function flatten(iterable $collection) {
+    $results = [];
+    foreach ($collecion as $item) {
+        if ($item === null) {
+            continue;
+        }
+        return array_merge($results, is_iterable($item) ? flatten($item) : [$item]);
+    }
+    return $results;
+};
+</code></pre>
+</section>
+<section>
+    <pre><code class="hljs php" contenteditable="true">function process(iterable $collection) {
+    $results = [];
+    foreach (flatten($collection) as $item) {
+        $result = $item + 1;
+        if ($result > 3) {
+            $results[] = $result;
         }
     }
-} // WARNING: cyclomatic complexity</code></pre>
-    <div class="fragment">
-        <h2>VS Declarative programming</h2>
-        <pre><code class="hljs sql" contenteditable="true">SELECT zip, city
+}
+
+process([1, [2], [3, 4]]); // [4, 5]
+// WARNING: cyclomatic complexity</code></pre>
+</section>
+<section>
+    <h2>Declarative programming</h2>
+    <pre><code class="hljs sql" contenteditable="true">SELECT zip, city
 FROM address
 INNER JOIN user
     ON address.user = user.id
 WHERE address.is_active = 1
 </code></pre>
-    </div>
 </section>
 <section>
-    <h2>Collection libraries ?</h2>
-    <ul>
-        <li>doctrine/collections</li>
-        <li>illuminate/support</li>
-        <li>phpcollection/phpcollection</li>
-        <li>...</li>
-    </ul>
+<pre><code class="hljs php" contenteditable="true">// php
+function flatten(array $collection) { ... };
+
+\array_filter(
+    \array_map(
+        function (int $x): int { return $x+1; },
+        flatten([1, [2], [3, 4]])
+    function (int $x): bool { return $x > 3; }
+);
+// [4, 5]</code></pre>
 </section>
-<section>
-    <h2>Collection Pipeline</h2>
-    <div class="table">
-        <div class="table__row">
-            <div class="table__cell vat pbm  prs fragment">
-                <strong>map</strong> <br>
-                [😁 😂 😃] => [😸 😹 😺]
-            </div>
-            <div class="table__cell vat pbm prs fragment">
-                <strong>filter</strong> <br>
-                [😁 😂 😹 😃 😸] => [😹 😸]
-            </div>
-            <div class="table__cell vat pbm prs fragment">
-                <strong>remove</strong> <br>
-                [😁 😂 😹 😃 😸] => [😁 😂 😃]
-            </div>
-        </div>
-        <div class="table__row">
-            <div class="table__cell vat pbm fragment">
-                <strong>take</strong> <br>
-                [😁 😂 😹 😃 😸] => [😁 😂 😹]
-            </div>
-            <div class="table__cell vat pbm prs fragment">
-                <strong>drop</strong> <br>
-                [😁 😂 😹 😃 😸] => [😹 😃 😸]
-            </div>
-            <div class="table__cell vat pbm fragment">
-                <strong>partition</strong> <br>
-                [😁 😹 😃 😸] => [[😁 😹] [😃 😸]]
-            </div>
-        </div>
-        <div class="table__row">
-            <div class="table__cell vat pbm prs fragment">
-                <strong>merge</strong> <br>
-                [😁 😹] [😃 😸] => [😁 😹 😃 😸]
-            </div>
-            <div class="table__cell vat pbm prs fragment">
-                <strong>flatten</strong> <br>
-                [[😁 😹] [😃 😸]] => [😁 😹 😃 😸]
-            </div>
-            <div class="table__cell vat pbm prs fragment">
-                <strong>flatMap / mapCat</strong> <br>
-                [😃 😣] => [😸 😺 😿 🙀]
-            </div>
-
-        </div>
-        <div class="table__row">
-            <div class="table__cell vat pbm prs fragment">
-                <strong>distinct</strong> <br>
-                [😌 😍 😏 😌 😍] => [😌 😍 😏]
-            </div>
-            <div class="table__cell vat pbm prs fragment">
-                <strong>dedupe</strong> <br>
-                [😌 😍 😍 😏 😌] => [😌 😍 😏 😌]
-            </div>
-            <div class="table__cell vat pbm fragment">
-                <strong>sort</strong> <br>
-                [😁 😂 😔 😞 😪] => [😪 😞 😔 😁 😂]
-            </div>
-        </div>
-    </div>
-</section>
-<!--
-😁 😂 😃 😄 😅 😆 😉 😊 😋 😌 😍 😏 😒 😓 😔 😖 😘 😚 😜 😝
-
-😞 😠 😡 😢 😣 😤 😥 😨 😩 😪 😫 😭 😰 😱 😲 😳 😵 😷
-
-😸 😹 😺 😻 😼 😽 😾 😿 🙀
--->
