@@ -1,0 +1,134 @@
+<section>
+    <h2>Collection pipeline</h2>
+</section>
+<section>
+    <img src="resources/img/pipeline.png" alt="">
+</section>
+<section>
+    <pre><code class="hljs bash" contenteditable="true">git ls-files \
+    | while read f; do git blame -w --line-porcelain -- $f | grep -I '^author '; done \
+    | sort -f \
+    | uniq -ic \
+    | sort -nr;
+</code></pre>
+</section>
+<section>
+    <img src="resources/img/inconnus-pipeline.jpeg" alt="" style="max-height:80vh">
+</section>
+<section>
+    <blockquote>
+        Collection pipelines are a programming pattern where you organize some computation as a sequence of operations which compose by taking a collection as output of one operation and feeding it into the next.
+        <div class="author">Martin Fowler</div>
+    </blockquote>
+</section>
+<section>
+    <div class="table">
+        <div class="table__row">
+            <div class="table__cell vat pbm  prs fragment">
+                <strong>map</strong> <br>
+                [😁 😂 😃] => [😸 😹 😺]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>filter</strong> <br>
+                [😁 😂 😹 😃 😸] => [😹 😸]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>remove</strong> <br>
+                [😁 😂 😹 😃 😸] => [😁 😂 😃]
+            </div>
+        </div>
+        <div class="table__row">
+            <div class="table__cell vat pbm fragment">
+                <strong>take</strong> <br>
+                [😁 😂 😹 😃 😸] => [😁 😂 😹]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>drop</strong> <br>
+                [😁 😂 😹 😃 😸] => [😹 😃 😸]
+            </div>
+            <div class="table__cell vat pbm fragment">
+                <strong>partition</strong> <br>
+                [😁 😹 😃 😸] => [[😁 😹] [😃 😸]]
+            </div>
+        </div>
+        <div class="table__row">
+            <div class="table__cell vat pbm prs fragment">
+                <strong>merge</strong> <br>
+                [😁 😹] [😃 😸] => [😁 😹 😃 😸]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>flatten</strong> <br>
+                [[😁 😹] [😃 😸]] => [😁 😹 😃 😸]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>flatMap / mapCat</strong> <br>
+                [😃 😣] => [😸 😺 😿 🙀]
+            </div>
+        </div>
+        <div class="table__row">
+            <div class="table__cell vat pbm prs fragment">
+                <strong>distinct</strong> <br>
+                [😌 😍 😏 😌 😍] => [😌 😍 😏]
+            </div>
+            <div class="table__cell vat pbm prs fragment">
+                <strong>dedupe</strong> <br>
+                [😌 😍 😍 😏 😌] => [😌 😍 😏 😌]
+            </div>
+            <div class="table__cell vat pbm fragment">
+                <strong>sort</strong> <br>
+                [😁 😂 😔 😞 😪] => [😪 😞 😔 😁 😂]
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <img src="resources/img/chasseur-inconnus.jpg" alt="" style="max-height:80vh">
+    <h2>Quelle est la différence entre un bon et un mauvais pipeline ?</h2>
+</section>
+<section>
+<pre><code class="hljs javascript">// javascript
+[1, [2], [3, 4]]].flat().map(x => x + 1).filter(x => x > 3);
+// [4, 5]</code></pre>
+</section>
+<section>
+    <ul>
+        <li>Les étapes sont décrites dans l'ordre d'execution</li>
+        <li class="fragment">Chaque étape est <strong class="inside-color">définie</strong> et <strong class="inside-color">isolée</strong></li>
+        <li class="fragment">=> Suppression des effets de bord</li>
+        <li class="fragment">=> Code plus <strong class="inside-color">résilient</strong></li>
+    </ul>
+</section>
+<section>
+<pre><code class="hljs javascript">// javascript
+const add = (x => (y => x + y)),
+    inc = add(1),
+    gt = (x => (y =>  y > x)),
+    gt3 = gt(3)
+;
+
+[1, [2], [3, 4]].flat().map(inc).filter(gt3); // [4, 5]</code></pre>
+</section>
+<section>
+    <ul>
+        <li>Les <strong class="inside-color">comportements</strong> sont <strong class="inside-color">isolés</strong></li>
+        <li class="fragment">=> Réutilisables et testables</li>
+        <li class="fragment">=> Code plus <strong class="inside-color">modulaire</strong></li>
+    </ul>
+</section>
+<section>
+    <blockquote>
+        "Le mauvais pipeline, il voit une liste d'étapes, il traite. <br> Le bon pipeline lui, il voit une liste d'étapes... bon bah il traite. Mais c'est un bon pipeline !"<br><br>
+        <div class="author">Un dev, dans le bouchonnois</div>
+    </blockquote>
+</section>
+<section>
+    <h2>&Agrave; chaque étape</h2>
+    <ul>
+        <li>L'ensemble des éléments de la collection est parcouru</li>
+        <li class="fragment">Une collection intermédiaire est crée</li>
+        <li class="fragment">=> Augmentation du temps de calcul et la mémoire consommée</li>
+    </ul>
+    <pre class="fragment"><code class="hljs javascript">// javascript
+[...Array(100000).keys()].flat().map(inc).filter(gt3); // 💥 🔥 ☠ !!!
+</code></pre>
+</section>
